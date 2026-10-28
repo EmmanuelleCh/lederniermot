@@ -1,0 +1,174 @@
+/* ---------- Base ---------- */
+:root {
+  --fond: #12121c;
+  --papier: #f3ecdf;
+  --texte: #e8e4f0;
+  --texte-doux: #9a97ad;
+  --accent: #c9a7d8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Empêche le navigateur mobile d'agrandir le texte tout seul */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh; /* hauteur réelle sur mobile (barre d'adresse comprise) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-x: hidden; /* le canvas du feu déborde un peu du papier : pas de défilement horizontal */
+  background: radial-gradient(circle at 50% 20%, #1f1d33 0%, var(--fond) 70%);
+  color: var(--texte);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.6;
+}
+
+/* ---------- Mise en page ---------- */
+main {
+  width: min(100%, 640px);
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+
+main > p {
+  color: var(--texte-doux);
+  font-style: italic;
+  font-size: clamp(0.95rem, 3.6vw, 1.05rem);
+  margin-bottom: 2rem;
+}
+
+/* ---------- Formulaire ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Le canvas du feu (créé en JavaScript) se place par rapport à ce bloc */
+.paper {
+  position: relative;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  /* La hauteur s'adapte à l'écran : ni minuscule sur téléphone, ni immense sur grand écran */
+  height: clamp(240px, 50vh, 420px);
+  padding: clamp(1rem, 4.5vw, 1.5rem);
+  background: var(--papier);
+  color: #2b2733;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1.1rem; /* 16px minimum : sinon iPhone zoome au toucher */
+  line-height: 1.8;
+  resize: vertical;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+button {
+  align-self: center;
+  min-height: 48px; /* zone de toucher confortable au doigt */
+  padding: 0.75rem 2.5rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover {
+  background: var(--accent);
+  color: var(--fond);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ---------- Le message qui apparaît après le feu ---------- */
+/* Posé par-dessus l'emplacement de la lettre : rien ne se déplace sur la page */
+.after-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--texte-doux);
+  font-style: italic;
+  font-size: clamp(1.05rem, 4.5vw, 1.2rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+.after-message.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- Petits écrans ---------- */
+@media (max-width: 480px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  main > p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Au doigt, on ne redimensionne pas le papier : la poignée gênerait */
+  textarea {
+    resize: none;
+  }
+
+  button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* ---------- Écrans larges en hauteur réduite (téléphone en paysage) ---------- */
+@media (max-height: 520px) {
+  textarea {
+    height: clamp(160px, 42vh, 260px);
+  }
+
+  main > p {
+    margin-bottom: 1rem;
+  }
+}

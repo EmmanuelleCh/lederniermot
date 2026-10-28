@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lettres jamais envoyées</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Lettres jamais envoyées</h1>
+      <p>Écris ce que tu n'as pas pu dire. Puis laisse-le partir.</p>
+
+      <form id="letter-form">
+        <div class="paper" id="paper">
+          <textarea id="letter" placeholder="Cher·e ..." rows="12"></textarea>
+
+          <!-- Le message est posé à l'endroit où était la lettre -->
+          <div class="after-message" id="after-message">
+            <p>
+              Ta lettre est partie. Tu n'as plus à la porter. Respire
+              maintenant.
+            </p>
+          </div>
+        </div>
+        <button type="submit">Brûler</button>
+        <button type="button" id="again" hidden>
+          Écrire une nouvelle lettre
+        </button>
+      </form>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
